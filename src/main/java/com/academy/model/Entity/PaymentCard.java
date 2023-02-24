@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,9 +15,9 @@ public class PaymentCard {
     private String exp_date;
     private String cvv;
     private String card_holder_name;
-    private Integer user_id;
+    private Long user_id;
     private Boolean is_deleted;
-    private LocalDateTime created;
-    private LocalDateTime changed;
+    private Timestamp created;
+    private Timestamp changed;
 
 }

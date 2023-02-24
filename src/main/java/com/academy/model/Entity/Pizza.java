@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,12 +15,11 @@ public class Pizza {
 
     private Long id;
     private String name;
-    private String weight;
-    private Float price;
-    private Boolean is_deleted;
+    private Integer weight;
+    private Double price;
     private Boolean visible;
-    private LocalDateTime created;
-    private LocalDateTime changed;
+    private Timestamp created;
+    private Timestamp changed;
     private List<Ingredient> ingredients;
 
 }

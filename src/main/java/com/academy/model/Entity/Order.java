@@ -2,19 +2,22 @@ package com.academy.model.Entity;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
 public class Order {
 
     private Long id;
-    private Float price; /*WWWWWWWWWWWWWWWWWWWW*/
+    private Double price;
     private String status;
     private Integer user_id;
-    private LocalDateTime created; /*WWWWWWWWWWWWWWWWW*/
-    private LocalDateTime changed;
-    private Boolean is_deleted;
+    private Timestamp created;
+    private Timestamp changed;
+
+    private String delivery_address;
+    private String promo_code;
+    private String delivery_time;
     private List<Pizza> pizzas;
 
 }

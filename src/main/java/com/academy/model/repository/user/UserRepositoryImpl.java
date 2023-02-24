@@ -1,4 +1,4 @@
-package com.academy.model.repository;
+package com.academy.model.repository.user;
 
 import com.academy.model.Entity.User;
 import org.apache.commons.lang3.StringUtils;
