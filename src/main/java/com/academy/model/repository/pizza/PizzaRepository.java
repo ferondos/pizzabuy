@@ -9,8 +9,8 @@ public interface PizzaRepository extends CRUDRepository<Long, Pizza> {
 
     List<Pizza> findByCategory(String category);
 
-    List<Pizza> sortByPriceAsc();
 
-    List<Pizza> sortByPriceDesc();
+    List<Pizza> sortByPrice(String param);
+
 
 }

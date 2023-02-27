@@ -4,17 +4,25 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
    http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-<!--    <servlet>-->
-<!--        <servlet-name>MainServlet</servlet-name>-->
-<!--        <servlet-class>com.noirix.controller.FrontController</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>MainServlet</servlet-name>-->
-<!--        <url-pattern>/FrontController</url-pattern>-->
-<!--    </servlet-mapping>-->
+<!--    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>com.noirix.controller.FrontController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/FrontController</url-pattern>
+    </servlet-mapping>-->
 
     <!--    localhost:8080/application/FrontController-->
     <!--    https://kalevich.com/application/FrontController-->
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>com.academy.controller.PizzaController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/PizzaController</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>HelloWeb</servlet-name>
@@ -34,6 +42,14 @@
     <servlet-mapping>
         <servlet-name>ByeByeWeb</servlet-name>
         <url-pattern>/bye</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PizzaWeb</servlet-name>
+        <jsp-file>/WEB-INF/jsp/pizza.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PizzaWeb</servlet-name>
+        <url-pattern>/pizza</url-pattern>
     </servlet-mapping>
     
 <!--    <listener>-->

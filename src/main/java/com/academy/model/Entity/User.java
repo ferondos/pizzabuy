@@ -23,6 +23,7 @@ public class User {
     private Timestamp created;
     private Timestamp changed;
     private String status;
+
     private List<PaymentCard> paymentCards;
     private List<Order> orders;
     private List<Address> addresses;

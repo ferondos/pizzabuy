@@ -1,50 +1,213 @@
 package com.academy.model.repository.pizza;
 
 import com.academy.model.Entity.Pizza;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class PizzaRepositoryImpl implements PizzaRepository {
+    public static final String POSTGRES_DRIVER_NAME = "org.postgresql.Driver";
+    public static final String DATABASE_URL = "jdbc:postgresql://localhost:";
+    public static final int DATABASE_PORT = 5432;
+    public static final String DATABASE_NAME = "/pizza_buy";
+    public static final String DATABASE_LOGIN = "postgres";
+    public static final String DATABASE_PASSWORD = "root";
 
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String WEIGHT = "weight";
+    private static final String PRICE = "price";
+    private static final String VISIBLE = "visible";
+    private static final String CREATED = "created";
+    private static final String CHANGED = "changed";
+    private static final String IMAGE_URL = "image_url";
+    private static final String CATEGORY = "category";
+
+    private void registerDriver() {
+        try {
+            Class.forName(POSTGRES_DRIVER_NAME);
+        } catch (ClassNotFoundException e) {
+            System.err.println("JDBC Driver Cannot be loaded!");
+            throw new RuntimeException("JDBC Driver Cannot be loaded!");
+        }
+    }
+
+    private Connection getConnection() {
+        String jdbcURL = StringUtils.join(DATABASE_URL, DATABASE_PORT, DATABASE_NAME);
+        try {
+            return DriverManager.getConnection(jdbcURL, DATABASE_LOGIN, DATABASE_PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
-    public Pizza findOne(Long id) {
-        return null;
+    public Pizza findById(Long id) {
+        driverReg();
+        Pizza pizza = null;
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("select * from pizza.pizzas where id=?");
+        ) {
+            pstm.setLong(1, id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                pizza = parseResultSet(rs);
+            }
+            return pizza;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
     }
 
     @Override
     public List<Pizza> findAll() {
-        return null;
+        final String findAllQuery = "select * from pizza.pizzas order by id asc ";
+
+        List<Pizza> result = new ArrayList<>();
+
+        driverReg();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(findAllQuery)
+        ) {
+
+            while (rs.next()) {
+                result.add(parseResultSet(rs));
+            }
+            return result;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+    }
+
+    private Pizza parseResultSet(ResultSet rs) {
+        Pizza pizza;
+        try {
+            pizza = Pizza.builder().id(rs.getLong(ID))
+                    .name(rs.getString(NAME))
+                    .weight(rs.getInt(WEIGHT))
+                    .price(rs.getDouble(PRICE))
+                    .visible(rs.getBoolean(VISIBLE))
+                    .created(rs.getTimestamp(CREATED))
+                    .changed(rs.getTimestamp(CHANGED))
+                    .image_url(rs.getString(IMAGE_URL))
+                    .category(rs.getString(CATEGORY))
+                    .build();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return pizza;
     }
 
     @Override
     public Pizza create(Pizza object) {
-        return null;
+        final String name = object.getName();
+        final Double price = object.getPrice();
+        final String category = object.getCategory();
+        driverReg();
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizza.pizzas (name, price, category) VALUES (?,?,?)");
+
+
+        ) {
+            pstm.setString(1, name);
+            pstm.setDouble(2, price);
+            pstm.setString(3, category);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return object;
+    }
+
+    private void driverReg() {
+        registerDriver();
     }
 
     @Override
     public Pizza update(Pizza object) {
-        return null;
+        driverReg();
+        final Long id = object.getId();
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("update pizza.pizzas set name='updateTest', price=420,category='testCat' where id=?");
+        ) {
+
+            pstm.setLong(1, id);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return object;
     }
 
     @Override
     public void delete(Long id) {
-
+        driverReg();
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("delete from pizza.pizzas where id=?");
+        ) {
+            pstm.setLong(1, id);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
     }
 
     @Override
     public List<Pizza> findByCategory(String category) {
-        return null;
+        List<Pizza> pizzas = new ArrayList<>();
+        driverReg();
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("select * from pizza.pizzas where category=? order by id asc");
+        ) {
+            pstm.setString(1, category);
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                pizzas.add(parseResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
+        return pizzas;
     }
 
     @Override
-    public List<Pizza> sortByPriceAsc() {
-        return null;
+    public List<Pizza> sortByPrice(String sortingQuery) {
+        List<Pizza> pizzas = new ArrayList<>();
+        driverReg();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sortingQuery)
+        ) {
+            while (rs.next()) {
+                pizzas.add(Pizza.builder()
+                        .name(rs.getString("name"))
+                        .price(rs.getDouble("price"))
+                        .build());
+            }
+            return pizzas;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("SQL Issues!");
+        }
     }
 
-    @Override
-    public List<Pizza> sortByPriceDesc() {
-        return null;
-    }
 
 }
