@@ -1,5 +1,6 @@
 package com.academy.controller;
 
+import com.academy.configuration.DatabaseProperties;
 import com.academy.model.Entity.Pizza;
 import com.academy.model.repository.pizza.PizzaRepositoryImpl;
 import com.academy.service.PizzaService;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 
 public class PizzaController extends HttpServlet {
-    private final PizzaService pizzaService = new PizzaServiceImpl(new PizzaRepositoryImpl());
+    private final PizzaService pizzaService = new PizzaServiceImpl(new PizzaRepositoryImpl(new DatabaseProperties()));
 
 
     @Override

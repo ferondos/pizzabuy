@@ -1,6 +1,8 @@
 package com.academy.model.repository.pizza;
 
+import com.academy.configuration.DatabaseProperties;
 import com.academy.model.Entity.Pizza;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -13,28 +15,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.academy.model.columns.PizzaColumns.*;
+
+@RequiredArgsConstructor
 @Repository
 public class PizzaRepositoryImpl implements PizzaRepository {
-    public static final String POSTGRES_DRIVER_NAME = "org.postgresql.Driver";
-    public static final String DATABASE_URL = "jdbc:postgresql://localhost:";
-    public static final int DATABASE_PORT = 5432;
-    public static final String DATABASE_NAME = "/pizza_buy";
-    public static final String DATABASE_LOGIN = "postgres";
-    public static final String DATABASE_PASSWORD = "root";
+    private final DatabaseProperties properties;
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String WEIGHT = "weight";
-    private static final String PRICE = "price";
-    private static final String VISIBLE = "visible";
-    private static final String CREATED = "created";
-    private static final String CHANGED = "changed";
-    private static final String IMAGE_URL = "image_url";
-    private static final String CATEGORY = "category";
 
     private void registerDriver() {
         try {
-            Class.forName(POSTGRES_DRIVER_NAME);
+            Class.forName(properties.getDriverName());
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
@@ -42,9 +33,9 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     }
 
     private Connection getConnection() {
-        String jdbcURL = StringUtils.join(DATABASE_URL, DATABASE_PORT, DATABASE_NAME);
+        String jdbcURL = StringUtils.join(properties.getUrl(), properties.getPort(), properties.getName());
         try {
-            return DriverManager.getConnection(jdbcURL, DATABASE_LOGIN, DATABASE_PASSWORD);
+            return DriverManager.getConnection(jdbcURL, properties.getLogin(), properties.getPassword());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

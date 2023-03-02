@@ -12,7 +12,7 @@ public class SpringTest {
         PizzaService pizzaService = applicationContext.getBean("pizzaServiceImpl", PizzaService.class);
 
 //        System.out.println(pizzaService.findById());
-//        System.out.println(pizzaService.findAll());
+        System.out.println(pizzaService.findAll());
 //        System.out.println(pizzaService.create(Pizza.builder().name("test pizza").price(33D).category("VEGGIE").build()));
 //        System.out.println(pizzaService.update(pizzaService.findById()));
 //        pizzaService.delete(pizzaService.findById().getId());

@@ -2,17 +2,16 @@ package com.academy.service;
 
 import com.academy.model.Entity.Pizza;
 import com.academy.model.repository.pizza.PizzaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class PizzaServiceImpl implements PizzaService {
     private final PizzaRepository pizzaRepository;
 
-    public PizzaServiceImpl(PizzaRepository pizzaRepository) {
-        this.pizzaRepository = pizzaRepository;
-    }
 
     @Override
     public Pizza findById(Long id) {
