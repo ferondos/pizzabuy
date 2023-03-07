@@ -1,6 +1,6 @@
 package com.academy.service;
 
-import com.academy.model.Entity.Pizza;
+import com.academy.model.entity.Pizza;
 
 import java.util.List;
 

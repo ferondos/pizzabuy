@@ -1,7 +1,7 @@
 package com.academy.model.repository.pizza;
 
 import com.academy.configuration.DatabaseProperties;
-import com.academy.model.Entity.Pizza;
+import com.academy.model.entity.Pizza;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
@@ -94,7 +94,7 @@ public class PizzaRepositoryImpl implements PizzaRepository {
         final Double price = object.getPrice();
         final String category = object.getCategory();
         driverReg();
-        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizza.pizzas (name, price, category) VALUES (?,?,?)");
+        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizza.pizzas (name, price, category) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
 
         ) {

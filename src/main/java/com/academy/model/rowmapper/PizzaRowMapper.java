@@ -1,6 +1,6 @@
 package com.academy.model.rowmapper;
 
-import com.academy.model.Entity.Pizza;
+import com.academy.model.entity.Pizza;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.academy.model.Entity;
+package com.academy.model.entity;
 
 import java.sql.Timestamp;
 

@@ -1,11 +1,8 @@
-package com.academy.model.Entity;
+package com.academy.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
 public class PaymentCard {

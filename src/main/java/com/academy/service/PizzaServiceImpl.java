@@ -1,6 +1,6 @@
 package com.academy.service;
 
-import com.academy.model.Entity.Pizza;
+import com.academy.model.entity.Pizza;
 import com.academy.model.repository.pizza.PizzaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.academy.model.Entity;
+package com.academy.model.entity;
 
 public enum Role {
     ROLE_USER, ROLE_ADMIN

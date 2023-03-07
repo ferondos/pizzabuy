@@ -1,6 +1,5 @@
 package com.academy;
 
-import com.academy.model.Entity.Pizza;
 import com.academy.model.repository.pizza.PizzaRepository;
 import com.academy.service.PizzaService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

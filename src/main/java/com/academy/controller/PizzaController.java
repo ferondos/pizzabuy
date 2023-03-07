@@ -1,14 +1,10 @@
 package com.academy.controller;
 
 import com.academy.configuration.DatabaseProperties;
-import com.academy.model.Entity.Pizza;
+import com.academy.model.entity.Pizza;
 import com.academy.model.repository.pizza.PizzaRepositoryImpl;
 import com.academy.service.PizzaService;
 import com.academy.service.PizzaServiceImpl;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

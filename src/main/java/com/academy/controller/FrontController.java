@@ -1,7 +1,5 @@
 package com.academy.controller;
 
-import com.academy.model.Entity.User;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

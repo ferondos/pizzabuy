@@ -1,6 +1,6 @@
 package com.academy.model.repository.pizza;
 
-import com.academy.model.Entity.Pizza;
+import com.academy.model.entity.Pizza;
 import com.academy.model.repository.CRUDRepository;
 
 import java.util.List;
