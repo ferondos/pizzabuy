@@ -19,7 +19,6 @@ public class PizzaRowMapper {
             try {
                 pizza = Pizza.builder().id(rs.getLong(ID))
                         .name(rs.getString(NAME))
-                        .weight(rs.getInt(WEIGHT))
                         .price(rs.getDouble(PRICE))
                         .visible(rs.getBoolean(VISIBLE))
                         .created(rs.getTimestamp(CREATED))
