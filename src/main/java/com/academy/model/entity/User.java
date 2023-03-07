@@ -17,9 +17,9 @@ public class User {
     private Long id;
     private String name;
     private String surname;
-    private String phone_number;
+    private String phoneNumber;
     private String password;
-    private Long role_id;
+    private Long roleId;
     private Timestamp created;
     private Timestamp changed;
     private String status;

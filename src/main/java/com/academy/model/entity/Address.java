@@ -15,7 +15,7 @@ public class Address {
     private String office;
     private Timestamp created;
     private Timestamp changed;
-    private Boolean id_deleted;
+    private Boolean deleted;
     private List<User> users;
 
 }

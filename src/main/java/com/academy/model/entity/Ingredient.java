@@ -10,7 +10,7 @@ public class Ingredient {
     private Long id;
     private String name;
     private Double price;
-    private Boolean is_deleted;
+    private Boolean deleted;
     private Boolean visible;
     private Timestamp created;
     private Timestamp changed;

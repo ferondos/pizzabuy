@@ -23,7 +23,7 @@ public class PizzaRowMapper {
                         .visible(rs.getBoolean(VISIBLE))
                         .created(rs.getTimestamp(CREATED))
                         .changed(rs.getTimestamp(CHANGED))
-                        .image_url(rs.getString(IMAGE_URL))
+                        .imageUrl(rs.getString(IMAGE_URL))
                         .category(rs.getString(CATEGORY))
                         .build();
             } catch (SQLException e) {

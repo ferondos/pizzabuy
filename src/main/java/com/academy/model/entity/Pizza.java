@@ -32,7 +32,7 @@ public class Pizza {
 
     private Timestamp changed;
 
-    private String image_url;
+    private String imageUrl;
 
     private String category;
 

@@ -6,8 +6,8 @@ public class PromoCode {
 
     private Long id;
     private String code;
-    private Timestamp exp_date;
-    private Integer discount_amount;
+    private Timestamp expDate;
+    private Integer discountAmount;
     private Timestamp created;
     private Timestamp changed;
 

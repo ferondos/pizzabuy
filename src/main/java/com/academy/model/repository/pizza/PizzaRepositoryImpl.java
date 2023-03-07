@@ -20,8 +20,8 @@ import static com.academy.model.columns.PizzaColumns.*;
 @RequiredArgsConstructor
 @Repository
 public class PizzaRepositoryImpl implements PizzaRepository {
-    private final DatabaseProperties properties;
 
+    private final DatabaseProperties properties;
 
     private void registerDriver() {
         try {
@@ -45,7 +45,8 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     public Pizza findById(Long id) {
         driverReg();
         Pizza pizza = null;
-        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("select * from pizza.pizzas where id=?");) {
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("select * from pizzas where id=?");) {
             pstm.setLong(1, id);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
@@ -60,12 +61,14 @@ public class PizzaRepositoryImpl implements PizzaRepository {
 
     @Override
     public List<Pizza> findAll() {
-        final String findAllQuery = "select * from pizza.pizzas order by id asc ";
+        final String findAllQuery = "select * from pizzas order by id asc ";
 
         List<Pizza> result = new ArrayList<>();
 
         driverReg();
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(findAllQuery)) {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(findAllQuery)) {
 
             while (rs.next()) {
                 result.add(parseResultSet(rs));
@@ -80,7 +83,16 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     private Pizza parseResultSet(ResultSet rs) {
         Pizza pizza;
         try {
-            pizza = Pizza.builder().id(rs.getLong(ID)).name(rs.getString(NAME)).price(rs.getDouble(PRICE)).visible(rs.getBoolean(VISIBLE)).created(rs.getTimestamp(CREATED)).changed(rs.getTimestamp(CHANGED)).image_url(rs.getString(IMAGE_URL)).category(rs.getString(CATEGORY)).build();
+            pizza = Pizza.builder()
+                    .id(rs.getLong(ID))
+                    .name(rs.getString(NAME))
+                    .price(rs.getDouble(PRICE))
+                    .visible(rs.getBoolean(VISIBLE))
+                    .created(rs.getTimestamp(CREATED))
+                    .changed(rs.getTimestamp(CHANGED))
+                    .imageUrl(rs.getString(IMAGE_URL))
+                    .category(rs.getString(CATEGORY))
+                    .build();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -94,7 +106,9 @@ public class PizzaRepositoryImpl implements PizzaRepository {
         final Double price = object.getPrice();
         final String category = object.getCategory();
         driverReg();
-        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizza.pizzas (name, price, category) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizzas " +
+                     "(name, price, category) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
 
         ) {
@@ -125,7 +139,9 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     public Pizza update(Pizza object) {
         driverReg();
         final Long id = object.getId();
-        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("update pizza.pizzas set name='updateTest', price=420,category='testCat' where id=?");) {
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("update pizzas " +
+                     "set name='updateTest', price=420,category='testCat' where id=?");) {
 
             pstm.setLong(1, id);
             pstm.executeUpdate();
@@ -140,7 +156,8 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     @Override
     public void delete(Long id) {
         driverReg();
-        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("delete from pizza.pizzas where id=?");) {
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("delete from pizza.pizzas where id=?");) {
             pstm.setLong(1, id);
             pstm.executeUpdate();
         } catch (SQLException e) {
@@ -153,7 +170,9 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     public List<Pizza> findByCategory(String category) {
         List<Pizza> pizzas = new ArrayList<>();
         driverReg();
-        try (Connection connection = getConnection(); PreparedStatement pstm = connection.prepareStatement("select * from pizza.pizzas where category=? order by id asc");) {
+        try (Connection connection = getConnection();
+             PreparedStatement pstm = connection.prepareStatement("select * from pizzas " +
+                     "where category=? order by id asc");) {
             pstm.setString(1, category);
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
@@ -170,9 +189,14 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     public List<Pizza> sortByPrice(String sortingQuery) {
         List<Pizza> pizzas = new ArrayList<>();
         driverReg();
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(sortingQuery)) {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sortingQuery)) {
             while (rs.next()) {
-                pizzas.add(Pizza.builder().name(rs.getString("name")).price(rs.getDouble("price")).build());
+                pizzas.add(Pizza.builder()
+                        .name(rs.getString("name"))
+                        .price(rs.getDouble("price"))
+                        .build());
             }
             return pizzas;
         } catch (SQLException e) {

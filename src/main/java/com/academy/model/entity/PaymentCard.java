@@ -9,11 +9,11 @@ public class PaymentCard {
 
     private Long id;
     private String number;
-    private String exp_date;
+    private String expDate;
     private String cvv;
-    private String card_holder_name;
-    private Long user_id;
-    private Boolean is_deleted;
+    private String cardHolderName;
+    private Long userId;
+    private Boolean deleted;
     private Timestamp created;
     private Timestamp changed;
 
