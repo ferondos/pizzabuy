@@ -33,9 +33,13 @@ public class PizzaRepositoryImpl implements PizzaRepository {
     }
 
     private Connection getConnection() {
-        String jdbcURL = StringUtils.join(properties.getUrl(), properties.getPort(), properties.getName());
+        String jdbcURL = StringUtils.join(properties.getUrl(),
+                properties.getPort(),
+                properties.getName());
         try {
-            return DriverManager.getConnection(jdbcURL, properties.getLogin(), properties.getPassword());
+            return DriverManager.getConnection(jdbcURL,
+                    properties.getLogin(),
+                    properties.getPassword());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -46,7 +50,7 @@ public class PizzaRepositoryImpl implements PizzaRepository {
         driverReg();
         Pizza pizza = null;
         try (Connection connection = getConnection();
-             PreparedStatement pstm = connection.prepareStatement("select * from pizzas where id=?");) {
+             PreparedStatement pstm = connection.prepareStatement("select * from pizza.pizzas where id=?");) {
             pstm.setLong(1, id);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
@@ -61,7 +65,7 @@ public class PizzaRepositoryImpl implements PizzaRepository {
 
     @Override
     public List<Pizza> findAll() {
-        final String findAllQuery = "select * from pizzas order by id asc ";
+        final String findAllQuery = "select * from pizza.pizzas order by id asc ";
 
         List<Pizza> result = new ArrayList<>();
 
@@ -107,8 +111,9 @@ public class PizzaRepositoryImpl implements PizzaRepository {
         final String category = object.getCategory();
         driverReg();
         try (Connection connection = getConnection();
-             PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizzas " +
-                     "(name, price, category) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement pstm = connection.prepareStatement("INSERT INTO pizza.pizzas " +
+                     "(name, price, category) VALUES (?,?,?)",
+                     Statement.RETURN_GENERATED_KEYS);
 
 
         ) {
@@ -140,7 +145,7 @@ public class PizzaRepositoryImpl implements PizzaRepository {
         driverReg();
         final Long id = object.getId();
         try (Connection connection = getConnection();
-             PreparedStatement pstm = connection.prepareStatement("update pizzas " +
+             PreparedStatement pstm = connection.prepareStatement("update pizza.pizzas " +
                      "set name='updateTest', price=420,category='testCat' where id=?");) {
 
             pstm.setLong(1, id);
@@ -171,7 +176,7 @@ public class PizzaRepositoryImpl implements PizzaRepository {
         List<Pizza> pizzas = new ArrayList<>();
         driverReg();
         try (Connection connection = getConnection();
-             PreparedStatement pstm = connection.prepareStatement("select * from pizzas " +
+             PreparedStatement pstm = connection.prepareStatement("select * from pizza.pizzas " +
                      "where category=? order by id asc");) {
             pstm.setString(1, category);
             ResultSet resultSet = pstm.executeQuery();
