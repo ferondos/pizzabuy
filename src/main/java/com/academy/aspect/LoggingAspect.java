@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -46,17 +45,10 @@ public class LoggingAspect {
 
     @Before("serviceMethodsCalls()")
     public void callsCount(JoinPoint point) {
-        Map<String, Integer> map = MethodCallCounter.methodCalls;
-        String methodName = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
-        Integer nodeValue = map.get(methodName);
-        if (!map.containsKey(methodName)) {
-            map.put(methodName, 1);
-        } else {
-            map.replace(methodName, ++nodeValue);
-        }
-        for (Map.Entry<String, Integer> node : map.entrySet()) {
-            System.out.println("Method " + node.getKey() + " executed " + node.getValue() + " times");
-        }
+        String methodName = point.getSignature().getDeclaringTypeName()
+                + "."
+                + point.getSignature().getName();
+        MethodCallCounter.addMethod(methodName);
     }
 
 }
